@@ -1,6 +1,5 @@
 require 'sinatra/base'
-
-
+require_relative './lib/player'
 
 class Battle < Sinatra::Base
 
@@ -9,32 +8,30 @@ class Battle < Sinatra::Base
   set :session_secret, 'Kevin McCloud'
 
   get '/' do
-    session[:first_player_hitpoints] = 100
-    session[:second_player_hitpoints] = 100
     erb :index
   end
 
   get '/play' do
-    @first_player_hitpoints = session[:first_player_hitpoints].to_s
-    @second_player_hitpoints = session[:second_player_hitpoints].to_s
-    @first_player_name = session[:first_player_name]
-    @second_player_name = session[:second_player_name]
+    @first_player_hitpoints = $player_one.hitpoints
+    @second_player_hitpoints = $player_two.hitpoints
+    @first_player_name = $player_one.name
+    @second_player_name = $player_two.name
     erb :play
   end
 
   post '/names' do
-    session[:first_player_name] = params[:first_name]
-    session[:second_player_name] = params[:second_name]
-    redirect to('/play')
+    $player_one = Player.new(params[:first_name])
+    $player_two = Player.new(params[:second_name])
+    redirect '/play' 
   end
 
   post '/attack' do
-    if params[:player_two] == "Attack Player 2"
-      session[:second_player_hitpoints] -= 10
+    if params[:second_player] == "Attack Player 2"
+      $player_two.hit
     end
 
-    if params[:player_one] == "Attack Player 1"
-      session[:first_player_hitpoints] -= 10
+    if params[:first_player] == "Attack Player 1"
+      $player_one.hit
     end
 
     redirect to '/play'
