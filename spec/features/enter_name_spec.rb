@@ -6,11 +6,8 @@ feature "enter names" do
   end
 
   scenario '' do
-    visit '/'
-    fill_in 'first_name', with: 'RG'
-    fill_in 'second_name', with: 'David'
-    click_on 'Submit'
-    expect(page).to have_content 'RG vs. David'
+    sign_in_and_play
+    expect(page).to have_content 'RG vs. Sha'
   end
 
 end
