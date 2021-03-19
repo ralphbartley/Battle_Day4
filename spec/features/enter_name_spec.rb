@@ -7,7 +7,7 @@ feature "enter names" do
 
   scenario '' do
     sign_in_and_play
-    expect(page).to have_content 'RG vs. Sha'
+    expect(page).to have_content 'RG vs. Taran'
   end
 
 end

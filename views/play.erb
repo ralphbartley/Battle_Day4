@@ -1,11 +1,26 @@
-<%= @first_player_name %> vs. <%= @second_player_name %> <br/>
-<%= @first_player_hitpoints %>        <%= @second_player_hitpoints %>
+<% if @winner == nil %>
 
+  <%= @whos_turn %>'s turn!
 
-<form action="/attack" method="post">
-  <input type="submit" value="Attack Player 1" name="first_player">
-</form>
+  <%= @first_player_name %> vs. <%= @second_player_name %> <br/>
+  <%= @first_player_hitpoints %>        <%= @second_player_hitpoints %>
 
-<form action="/attack" method="post">
-  <input type="submit" value="Attack Player 2" name="second_player">
-</form>
+  <% if @whos_turn == @first_player_name %>
+
+      <form action="/attack" method="post">
+        <input type="submit" value="Attack Player 2" name="attack_second_player">
+      </form>
+
+  <% else %>
+
+      <form action="/attack" method="post">
+        <input type="submit" value="Attack Player 1" name="attack_first_player">
+      </form>
+
+  <%end%>
+
+<%else%>
+
+  <%= @winner %> wins!
+
+<%end%>
